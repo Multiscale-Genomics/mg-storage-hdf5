@@ -23,3 +23,9 @@ Loads each of the chunks into the HDF5 file
 python CreateHDF5.py  --hdf5=test.hdf5 --dataset=I10k --chrLen=249250621 --binSize 10000
 ```
 
+## Get data from HDF5
+Extract interactions that occur between a start and stop on a chromosome
+
+```
+python GetRange.py --hdf5=test.hdf5 --dataset=I1k --chrLen=249250621 --binSize=1000 --start=1 --end=2000
+```
