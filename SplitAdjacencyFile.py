@@ -10,12 +10,16 @@ parser = argparse.ArgumentParser(description="Load adjacency list into HDF5 file
 parser.add_argument("--fin", help="Input file")
 parser.add_argument("--dataset", help="Name of the dataset in the HDF5 file")
 parser.add_argument("--binSize", help="Size of the bins (bp)")
+parser.add_argument("--chrA", help="")
+parser.add_argument("--chrB", help="")
 
 # Get the matching parameters from the command line
 args = parser.parse_args()
 fin = args.fin
 dataset = args.dataset
 binSize = args.binSize
+chrA = args.chrA
+chrB = args.chrB
 
 t = datetime.now().time()
 print "Loaded params: " + str(t)
@@ -30,8 +34,8 @@ for line in fi:
   line = line.rstrip()
   line = line.split("\t")
   
-  x = (int(line[0])/int(binSize)) - 1
-  y = (int(line[1])/int(binSize)) - 1
+  x = (int(line[0])/int(binSize))
+  y = (int(line[1])/int(binSize))
   v = int(float(line[2]))
   
   xBin = int(np.floor(x/maxBinSize))
@@ -46,7 +50,7 @@ for line in fi:
   
   if lCount % 1000000 == 0:
     for k in lineDict.keys():
-      fo = open(dataset + "/" + k + ".tmp", "a")
+      fo = open(dataset + "/" + "chr" + str(chrA) + "_chr" + str(chrB) + "_" + k + ".tmp", "a")
       for l in lineDict[k]:
         fo.write(l)
       fo.close()
@@ -55,7 +59,7 @@ for line in fi:
 fi.close()
 
 for k in lineDict.keys():
-  fo = open(dataset + "/" + k + ".tmp", "a")
+  fo = open(dataset + "/" + "chr" + str(chrA) + "_chr" + str(chrB) + "_" + k + ".tmp", "a")
   for l in lineDict[k]:
     fo.write(l)
   fo.close()
