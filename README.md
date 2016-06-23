@@ -13,7 +13,7 @@ ls for the storage and retrieval of interactions from an adjacency matrix stored
 Reads through the input adjacency list and splits it into managable chunks. This script is also able to handle interactions between different chromosomes.
 
 ```
-python SplitAdjacencyFile.py  --fin=chr1_1kb.RAWobserved --dataset=I1k --binSize=1000 --chrA=1 --chrB=1
+python SplitAdjacencyFile.py --fin=chr1_1kb.RAWobserved --dataset=I1k --binSize=1000 --chrA=1 --chrB=1
 ```
 
 ## Load HDF5
@@ -28,5 +28,5 @@ This relies on the presence of a chrom.size file that contains a tab separated l
 Extract interactions that occur between a start and stop on a chromosome
 
 ```
-python GetRange.py --hdf5=test.hdf5 --dataset=I1k --chrLen=249250621 --binSize=1000 --start=1 --end=2000
+python GetRange.py --hdf5=test.hdf5 --dataset=I1k --binSize=1000 --chr=1 --start=1 --end=2000
 ```
