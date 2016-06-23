@@ -26,7 +26,8 @@ chrB = int(args.chrB)
 
 # Load the chromosome sizes for the whole genome
 chrSizes = open("chrom.size", "r")
-chr_param = []
+chr_param_list = []
+chr_param = {}
 genomeLen = 0
 for line in chrSizes:
   line = line.rstrip()
@@ -37,16 +38,17 @@ for line in chrSizes:
   
   genomeLen += l
   
-  chr_param.append([c, l, genomeLen])
+  chr_param_list.append([c, l, genomeLen])
+  chr_param[c] = [c, l, genomeLen]
 chrSizes.close()
 
 t = datetime.now().time()
 print "Loaded params: " + str(t)
 
-xy = int(np.ceil(float(chr_param[-1][2])/float(binSize)))
+xy = int(np.ceil(float(chr_param_list[-1][2])/float(binSize)))
 # chrA <= chrB
-x_chrA = int(np.ceil(float(chr_param[chrA-1][1])/float(binSize)))
-y_chrB = int(np.ceil(float(chr_param[chrB-1][1])/float(binSize)))
+x_chrA = int(np.ceil(float(chr_param[str(chrA)][1])/float(binSize)))
+y_chrB = int(np.ceil(float(chr_param[str(chrB)][1])/float(binSize)))
 if x_chrA > 10000:
   axy = 10000
 else:
@@ -100,10 +102,10 @@ for x_cell in xrange(x_cells):
     
     x_limit = 0
     y_limit = 0
-    if x_start+bxy > chr_param[chrA-1][1]:
-      x_limit = x_start + axy - chr_param[chrA-1][1]
-    if y_start+bxy > chr_param[chrB-1][1]:
-      y_limit = y_start + bxy - chr_param[chrB-1][1]
+    if x_start+bxy > chr_param[str(chrA)][1]:
+      x_limit = x_start + axy - chr_param[str(chrA)][1]
+    if y_start+bxy > chr_param[str(chrB)][1]:
+      y_limit = y_start + bxy - chr_param[str(chrB)][1]
     
     d1 = np.zeros([axy-x_limit,bxy-y_limit], dtype='int32')
     d2 = np.zeros([bxy-y_limit,axy-x_limit], dtype='int32')
@@ -138,11 +140,11 @@ for x_cell in xrange(x_cells):
       
       lCount+=1
       if lCount % 1000000 == 0:
-        x_offset = int(np.ceil(float(chr_param[chrA-1][2] - chr_param[chrA-1][1])/float(binSize)))
+        x_offset = int(np.ceil(float(chr_param[str(chrA)][2] - chr_param[str(chrA)][1])/float(binSize)))
         x_matrix_start = x_start + x_offset
         x_matrix_end   = x_end  + x_offset
         
-        y_offset = int(np.ceil(float(chr_param[chrB-1][2] - chr_param[chrB-1][1])/float(binSize)))
+        y_offset = int(np.ceil(float(chr_param[str(chrB)][2] - chr_param[str(chrB)][1])/float(binSize)))
         y_matrix_start = y_start + y_offset
         y_matrix_end   = y_end  + y_offset
         
@@ -154,11 +156,11 @@ for x_cell in xrange(x_cells):
         print "    ... " + str(lCount)
     fi.close()
     
-    x_offset = int(np.ceil(float(chr_param[chrA-1][2] - chr_param[chrA-1][1])/float(binSize)))
+    x_offset = int(np.ceil(float(chr_param[str(chrA)][2] - chr_param[str(chrA)][1])/float(binSize)))
     x_matrix_start = x_start + x_offset
     x_matrix_end   = x_end  + x_offset
     
-    y_offset = int(np.ceil(float(chr_param[chrB-1][2] - chr_param[chrB-1][1])/float(binSize)))
+    y_offset = int(np.ceil(float(chr_param[str(chrB)][2] - chr_param[str(chrB)][1])/float(binSize)))
     y_matrix_start = y_start + y_offset
     y_matrix_end   = y_end  + y_offset
     
