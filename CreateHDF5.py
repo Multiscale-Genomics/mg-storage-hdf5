@@ -21,8 +21,8 @@ args = parser.parse_args()
 hdf5 = args.hdf5
 dataset = args.dataset
 binSize = args.binSize
-chrA = int(args.chrA)
-chrB = int(args.chrB)
+chrA = args.chrA
+chrB = args.chrB
 
 # Load the chromosome sizes for the whole genome
 chrSizes = open("chrom.size", "r")
