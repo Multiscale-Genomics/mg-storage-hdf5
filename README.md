@@ -20,7 +20,7 @@ python SplitAdjacencyFile.py --fin=chr1_1kb.RAWobserved --dataset=I1k --binSize=
 Loads each of the chunks into the HDF5 file
 
 ```
-python CreateHDF5.py --hdf5=test.hdf5 --dataset=I10k --binSize=10000 --chrA=1 --chrB=20
+python CreateHDF5.py --hdf5=test.hdf5 --genome=hg37 --dataset=I10k --binSize=10000 --chrA=1 --chrB=20
 ```
 This relies on the presence of a chrom.size file that contains a tab separated list of the chromosome number and the length of the chromosome. This way is is able to calculate the corect size matrix in teh HDF5 file.
 
