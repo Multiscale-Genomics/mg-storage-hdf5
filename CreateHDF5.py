@@ -160,12 +160,12 @@ for x_cell in xrange(x_cells):
         #x_offset = int(np.ceil(float(chr_param[genome][str(chrA)][1] - chr_param[genome][str(chrA)][0])/float(binSize)))
         x_offset = chr_param[genome][chrA]["bins"][int(binSize)][1]
         x_matrix_start = x_start + x_offset
-        x_matrix_end   = x_end  + x_offset
+        x_matrix_end   = x_end  + x_offset - x_limit
         
         #y_offset = int(np.ceil(float(chr_param[genome][str(chrB)][1] - chr_param[genome][str(chrB)][0])/float(binSize)))
         y_offset = chr_param[genome][chrB]["bins"][int(binSize)][1]
         y_matrix_start = y_start + y_offset
-        y_matrix_end   = y_end  + y_offset
+        y_matrix_end   = y_end  + y_offset - y_limit
         
         dset[x_matrix_start:x_matrix_end, y_matrix_start:y_matrix_end] += d1
         if x_start != y_start:
@@ -178,12 +178,12 @@ for x_cell in xrange(x_cells):
     #x_offset = int(np.ceil(float(chr_param[str(chrA)][2] - chr_param[str(chrA)][1])/float(binSize)))
     x_offset = chr_param[genome][chrA]["bins"][int(binSize)][1]
     x_matrix_start = x_start + x_offset
-    x_matrix_end   = x_end  + x_offset
+    x_matrix_end   = x_end  + x_offset - x_limit
     
     #y_offset = int(np.ceil(float(chr_param[str(chrB)][2] - chr_param[str(chrB)][1])/float(binSize)))
     y_offset = chr_param[genome][chrB]["bins"][int(binSize)][1]
     y_matrix_start = y_start + y_offset
-    y_matrix_end   = y_end  + y_offset
+    y_matrix_end   = y_end  + y_offset - y_limit
     
     dset[x_matrix_start:x_matrix_end, y_matrix_start:y_matrix_end] += d1
     if x_start != y_start:
