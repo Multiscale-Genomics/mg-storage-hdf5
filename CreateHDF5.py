@@ -31,25 +31,6 @@ chrB = args.chrB
 # Load the chromosome sizes for the whole genome
 h5 = hdf5()
 chr_param = h5.get_chromosome_sizes(genome)
-"""
-chrSizes = open("chrom.size", "r")
-chr_param_list = []
-chr_param = {}
-genomeLen = 0
-for line in chrSizes:
-  line = line.rstrip()
-  line = line.split("\t")
-  
-  c = line[0]
-  l = int(line[1])
-  
-  genomeLen += l
-  
-  chr_param_list.append([c, l, genomeLen])
-  chr_param[c] = [c, l, genomeLen]
-chrSizes.close()
-"""
-
 
 
 t = datetime.now().time()
@@ -149,7 +130,10 @@ for x_cell in xrange(x_cells):
       
       if x>=x_start and x<x_end and y>=y_start and y<y_end:
         d1[x-x_start, y-y_start] = v
-        d2[y-y_start, x-x_start] = v
+        if chrA == chrB:
+          d1[y-y_start, x-x_start] = v
+        else:
+          d2[y-y_start, x-x_start] = v
       else:
         print "Mis-placed value: " + str(line)
         print x, x_start, x_end, y, y_start, y_end
@@ -186,7 +170,7 @@ for x_cell in xrange(x_cells):
     y_matrix_end   = y_end  + y_offset - y_limit
     
     dset[x_matrix_start:x_matrix_end, y_matrix_start:y_matrix_end] += d1
-    if x_start != y_start:
+    if chrA != chrB:
       dset[y_matrix_start:y_matrix_end, x_matrix_start:x_matrix_end] += d2
     
     t1 = datetime.now()
