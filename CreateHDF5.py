@@ -7,7 +7,8 @@ import argparse
 import os.path
 from datetime import datetime
 
-from hdf5_loader import hdf5
+#from hdf5_loader import hdf5
+from datasets import datasets
 
 # Set up the command line parameters
 parser = argparse.ArgumentParser(description="Load adjacency list into HDF5 file")
@@ -29,9 +30,10 @@ chrA = args.chrA
 chrB = args.chrB
 
 # Load the chromosome sizes for the whole genome
-h5 = hdf5()
-chr_param = h5.get_chromosome_sizes(genome)
-
+#h5 = hdf5()
+ds = datasets()
+#chr_param = h5.get_chromosome_sizes(genome)
+chr_param = ds.getChr_param()
 
 t = datetime.now().time()
 print "Loaded params: " + str(t)
@@ -118,7 +120,6 @@ for x_cell in xrange(x_cells):
     fi = open(dataset + "/" + "chr" + str(chrA) + "_chr" + str(chrB) + "_" + str(x_cell) + "_" + str(y_cell) + ".tmp", "r")
     t0 = datetime.now()
     
-    print "  Iterator start"
     lCount = 0
     for line in fi:
       line = line.rstrip()
@@ -130,7 +131,7 @@ for x_cell in xrange(x_cells):
       
       if x>=x_start and x<x_end and y>=y_start and y<y_end:
         d1[x-x_start, y-y_start] = v
-        if chrA == chrB:
+        if chrA == chrB and axy-x_limit == bxy-y_limit:
           d1[y-y_start, x-x_start] = v
         else:
           d2[y-y_start, x-x_start] = v
@@ -141,12 +142,10 @@ for x_cell in xrange(x_cells):
       
       lCount+=1
       if lCount % 1000000 == 0:
-        #x_offset = int(np.ceil(float(chr_param[genome][str(chrA)][1] - chr_param[genome][str(chrA)][0])/float(binSize)))
         x_offset = chr_param[genome][chrA]["bins"][int(binSize)][1]
         x_matrix_start = x_start + x_offset
         x_matrix_end   = x_end  + x_offset - x_limit
         
-        #y_offset = int(np.ceil(float(chr_param[genome][str(chrB)][1] - chr_param[genome][str(chrB)][0])/float(binSize)))
         y_offset = chr_param[genome][chrB]["bins"][int(binSize)][1]
         y_matrix_start = y_start + y_offset
         y_matrix_end   = y_end  + y_offset - y_limit
@@ -159,18 +158,16 @@ for x_cell in xrange(x_cells):
         print "    ... " + str(lCount)
     fi.close()
     
-    #x_offset = int(np.ceil(float(chr_param[str(chrA)][2] - chr_param[str(chrA)][1])/float(binSize)))
     x_offset = chr_param[genome][chrA]["bins"][int(binSize)][1]
     x_matrix_start = x_start + x_offset
     x_matrix_end   = x_end  + x_offset - x_limit
     
-    #y_offset = int(np.ceil(float(chr_param[str(chrB)][2] - chr_param[str(chrB)][1])/float(binSize)))
     y_offset = chr_param[genome][chrB]["bins"][int(binSize)][1]
     y_matrix_start = y_start + y_offset
     y_matrix_end   = y_end  + y_offset - y_limit
     
     dset[x_matrix_start:x_matrix_end, y_matrix_start:y_matrix_end] += d1
-    if chrA != chrB:
+    if x_start != y_start:
       dset[y_matrix_start:y_matrix_end, x_matrix_start:x_matrix_end] += d2
     
     t1 = datetime.now()
