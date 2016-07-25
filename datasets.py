@@ -120,5 +120,11 @@ class datasets:
         """
         return self.chr_param[accession_id][chr_id]["bins"][int(resolution)][0]
     
+    def getTotalBinCount(self, accession_id, resolution):
+        """
+        Return a count of the total number of bins for a given dataset and resolution
+        """
+        return self.chr_param[accession_id]["meta"]["totalBinCount"][int(resolution)][1]
+    
     def getChr_param(self):
         return self.chr_param
