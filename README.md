@@ -1,6 +1,6 @@
 # mg-storage-hdf5
 
-ls for the storage and retrieval of interactions from an adjacency matrix stored in HDF5.
+Is for the storage and retrieval of interactions from an adjacency matrix stored in HDF5.
 
 # Requirements
 - Python 2.7+
